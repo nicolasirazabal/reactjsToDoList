@@ -3,22 +3,23 @@ import logo from './logo.svg';
 import './App.css';
 
 
-class TodoApp extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [], text: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
     return (
       <div>
         <h3>TODO</h3>
-        <TodoList items={this.state.items} />
+        <TodoList items={this.state.items} handleClick={this.handleClick} />
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="new-todo">
-            What needs to be done?
+            Agregar Item:
           </label>
           <input
             id="new-todo"
@@ -26,7 +27,7 @@ class TodoApp extends React.Component {
             value={this.state.text}
           />
           <button>
-            Add #{this.state.items.length + 1}
+            Agregar #{this.state.items.length + 1}
           </button>
         </form>
       </div>
@@ -51,18 +52,26 @@ class TodoApp extends React.Component {
       text: ''
     }));
   }
+
+  handleClick(idx) {
+   const remainder = this.state.items.filter((todo) => {
+     if(todo.id !== idx) return todo;
+   });
+   this.setState({items: remainder});
+  }
 }
 
 class TodoList extends React.Component {
+
   render() {
     return (
       <ul>
         {this.props.items.map(item => (
-          <li key={item.id}>{item.text}</li>
+          <li key={item.id}>{item.text} <button id="delete-item" onClick={() => {this.props.handleClick(item.id)}}>Eliminar</button></li>
         ))}
       </ul>
     );
   }
 }
 
-export default TodoApp;
+export default App;
