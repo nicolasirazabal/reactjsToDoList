@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+const header = {
+  lineHeight: 3,
+  backgroundColor: '#E91E63',
+  color: '#fff',
+  textAlign: 'center'
+}
 
-class App extends React.Component {
+const addButton = {
+  backgroundColor: '#E91E63',
+  width: 70,
+  height: 70,
+  borderRadius: 35,
+  alignItems: 'center',
+  justifyContent: 'center',
+  elevation: 8,
+  color: '#fff',
+  fontSize: 24,
+  borderWidth: 0,
+  marginLeft: 5
+}
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = { items: [], text: '' };
@@ -15,19 +34,17 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h3>TODO</h3>
+        <h3 style={header}>- NOTER -</h3>
         <TodoList items={this.state.items} handleClick={this.handleClick} />
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="new-todo">
-            Agregar Item:
-          </label>
           <input
             id="new-todo"
+            placeholder=">Escribir nota aquí"
             onChange={this.handleChange}
             value={this.state.text}
           />
-          <button>
-            Agregar #{this.state.items.length + 1}
+          <button style={addButton}>
+            +
           </button>
         </form>
       </div>
