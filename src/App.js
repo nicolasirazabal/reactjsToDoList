@@ -27,26 +27,30 @@ class App extends Component {
     super(props);
     this.state = { items: [], text: '' };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
   render() {
     return (
       <div>
         <h3 style={header}>- NOTER -</h3>
-        <TodoList items={this.state.items} handleClick={this.handleClick} />
-        <form onSubmit={this.handleSubmit}>
+        
+          <ul>
+            {this.state.items.map(item => (
+              <li key={item.id}>{item.text} <button id="delete-item" onClick={() => {this.deleteNote(item.id)}}>Eliminar</button></li>
+            ))}
+          </ul>
+
           <input
             id="new-todo"
             placeholder=">Escribir nota aquí"
             onChange={this.handleChange}
             value={this.state.text}
           />
-          <button style={addButton}>
+          <button style={addButton} onClick={this.addNote} >
             +
           </button>
-        </form>
       </div>
     );
   }
@@ -55,7 +59,7 @@ class App extends Component {
     this.setState({ text: e.target.value });
   }
 
-  handleSubmit(e) {
+  addNote(e) {
     e.preventDefault();
     if (!this.state.text.length) {
       return;
@@ -70,24 +74,11 @@ class App extends Component {
     }));
   }
 
-  handleClick(idx) {
+  deleteNote(key) {
    const remainder = this.state.items.filter((todo) => {
-     if(todo.id !== idx) return todo;
+     if(todo.id !== key) return todo;
    });
    this.setState({items: remainder});
-  }
-}
-
-class TodoList extends React.Component {
-
-  render() {
-    return (
-      <ul>
-        {this.props.items.map(item => (
-          <li key={item.id}>{item.text} <button id="delete-item" onClick={() => {this.props.handleClick(item.id)}}>Eliminar</button></li>
-        ))}
-      </ul>
-    );
   }
 }
 
